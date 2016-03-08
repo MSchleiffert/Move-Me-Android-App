@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.arjen.fblogin.Models.User;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -40,8 +41,11 @@ public class LoginFragment extends Fragment {
         public void onSuccess(LoginResult loginResult) {
             AccessToken CurrentAccesToken = loginResult.getAccessToken();
             Profile CurrentProfile = Profile.getCurrentProfile();
+            User userData = new User(CurrentProfile.getName(), CurrentProfile.getId());
+            Snackbar.make(getView(), "Naam: " + userData.getUserName() + "Mail: " + userData.getUserMail(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             //startActivity(new Intent(getActivity(), HomeActivity.class));
             displayWelcomeMessage(CurrentProfile);
+
         }
 
         @Override
