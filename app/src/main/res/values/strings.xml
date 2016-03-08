@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FBLogin</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
+    <string name="app_id">945262462235707</string>
+
+</resources>
