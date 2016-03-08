@@ -6,11 +6,11 @@ import java.util.Date;
  * Created by Menno on 8-3-2016.
  */
 public class User {
-    String userName;
-    String userMail;
-    Date dateCreated;
-    int pointBalance;
-    Events[] userEvents;
+    private String userName;
+    private String userMail;
+    private Date dateCreated;
+    private int pointBalance;
+    private Events[] userEvents;
 
 
     public User(String userName, String userMail){

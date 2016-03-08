@@ -17,11 +17,16 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -41,8 +46,33 @@ public class LoginFragment extends Fragment {
         public void onSuccess(LoginResult loginResult) {
             AccessToken CurrentAccesToken = loginResult.getAccessToken();
             Profile CurrentProfile = Profile.getCurrentProfile();
-            User userData = new User(CurrentProfile.getName(), CurrentProfile.getId());
-            Snackbar.make(getView(), "Naam: " + userData.getUserName() + "Mail: " + userData.getUserMail(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+            GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject object,GraphResponse response) {
+
+                    JSONObject json = response.getJSONObject();
+                    try {
+                        if(json != null){
+                            String text = json.getString("email");
+                            Log.d("email",text);
+
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,link,email,picture");
+            request.setParameters(parameters);
+            request.executeAsync();
+
+
+
+
+
             //startActivity(new Intent(getActivity(), HomeActivity.class));
             displayWelcomeMessage(CurrentProfile);
 
@@ -103,6 +133,7 @@ public class LoginFragment extends Fragment {
         profilePictureView = (ProfilePictureView) view.findViewById(R.id.Profile_Picture);
 
         loginButton.setReadPermissions("public_profile", "user_friends");
+        loginButton.setReadPermissions("email");
         loginButton.setFragment(this);
         loginButton.registerCallback(mCallBackManager, mCallBack);
     }

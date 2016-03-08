@@ -6,10 +6,10 @@ import org.w3c.dom.Text;
  * Created by Menno on 8-3-2016.
  */
 public class Events {
-    int eventId;
-    String eventName;
-    Text eventDescription;
-    String evenLocation;
+    private int eventId;
+    private String eventName;
+    private Text eventDescription;
+    private String evenLocation;
 
     public Events(String eventName, Text eventDescription, String evenLocation) {
         this.eventName = eventName;
